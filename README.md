@@ -87,6 +87,7 @@ El archivo `index.html` incluye:
 - Algunas páginas pueden estar incompletas o en proceso (ej: `page15`).
 - Se recomienda abrir desde un servidor local (ej: Live Server en VS Code) para evitar restricciones de iframes en algunos navegadores.
 
----
+- Aqui yace el alma de Cristian, Paula y Conde: 
+- https://github.com/CondezPancake/GroupHTML-CSS-CPC.git
 
 *Proyecto desarrollado como práctica de maquetación web — 2026*
