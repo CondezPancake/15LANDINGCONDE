@@ -3,68 +3,469 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adventure Voyage Wandering</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <title>15 Landing Pages — Galería del Profesor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent2: #f7a26a;
+      --text: #e8e8f0;
+      --muted: #6b6b85;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 60px 40px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .header-left h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .header-left h1 span { color: var(--accent); }
+    .header-left p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .badge {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* ── SEARCH BAR ── */
+    .toolbar {
+      padding: 24px 40px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+    #search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      padding: 10px 14px 10px 40px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    #search:focus { border-color: var(--accent); }
+    #search::placeholder { color: var(--muted); }
+
+    .count {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-left: auto;
+    }
+    .count strong { color: var(--accent); }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px 40px 60px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(124,106,247,.18);
+    }
+
+    /* iframe preview */
+    .preview {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .preview iframe {
+      width: 200%;
+      height: 200%;
+      transform: scale(0.5);
+      transform-origin: top left;
+      pointer-events: none;
+      border: none;
+    }
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+    }
+
+    /* color accent strip per card */
+    .card-strip {
+      height: 3px;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+    }
+
+    .card-body {
+      padding: 18px 20px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      flex: 1;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .card-footer {
+      padding: 0 20px 18px;
+      display: flex;
+      gap: 8px;
+    }
+    .btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 0;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s, background .2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 1000px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: pop .25s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(.95); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      flex: 1;
+    }
+    .modal-close {
+      background: var(--border);
+      border: none;
+      color: var(--text);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+    }
+    .modal-close:hover { background: #333; }
+    .modal iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+    .modal-actions {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .modal-actions a {
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: opacity .2s;
+    }
+    .modal-actions a:hover { opacity: .85; }
+    .modal-nav {
+      display: flex;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .modal-nav button {
+      background: var(--border);
+      border: none;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background .2s;
+    }
+    .modal-nav button:hover { background: var(--accent); }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      header, .toolbar, .grid { padding-left: 20px; padding-right: 20px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-  <main class="landing">
+<header>
+  <div class="header-left">
+    <h1>15 <span>Landing Pages</span></h1>
+    <p>Selecciona cualquier página para previsualizarla o abrirla.</p>
+  </div>
+  <span class="badge">Portafolio Estudiantil</span>
+</header>
 
-    <section class="hero">
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input id="search" type="text" placeholder="Buscar landing page…" oninput="filterCards()" />
+  </div>
+  <p class="count">Mostrando <strong id="visible-count">15</strong> de 15</p>
+</div>
 
-      <div class="col col-left">
-        <div class="headline">
-          <h1>Adventure<br>Voyage<br>Wandering</h1>
-          <img src="Star_3.png" alt="" class="star star-headline" aria-hidden="true" />
-        </div>
-        <p class="body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus in libero risus semper habitant arcu eget. Et integer facilisi.</p>
-        <a href="#" class="btn">Get started</a>
-        <div class="pills-bottom">
-          <div class="pill">
-            <img src="Frame_14214.png" alt="Hojas de palmera" />
-          </div>
-          <div class="pill">
-            <img src="Frame_14215.png" alt="Flores blancas" />
-          </div>
-        </div>
+<div class="grid" id="grid">
+  <!-- Cards injected by JS -->
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal" onclick="closeModalOnBackdrop(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="card-strip" id="modal-strip" style="width:4px;height:36px;border-radius:4px;flex-shrink:0"></div>
+      <span class="modal-title" id="modal-title">—</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <iframe id="modal-iframe" src="" title="Preview"></iframe>
+    <div class="modal-actions">
+      <a id="modal-open-link" href="#" target="_blank">↗ Abrir en nueva pestaña</a>
+      <div class="modal-nav">
+        <button onclick="navModal(-1)">← Anterior</button>
+        <button onclick="navModal(1)">Siguiente →</button>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div class="col col-center">
-        <div class="center-image-wrap">
-          <svg class="circle-text" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path id="circlePath" d="M150,150 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" fill="none"/>
-            <text>
-              <textPath href="#circlePath" startOffset="0%">Plant . Tree . Nature . Plant . Tree . Nature .</textPath>
-            </text>
-          </svg>
-          <div class="oval-main">
-            <img src="image_middle.png" alt="Hojas tropicales" />
-          </div>
-        </div>
+<script>
+const pages = [
+  { id: 'page3',  file: 'page3/landing3.html',   title: 'Página 3',                    desc: 'Landing minimalista de diseño' },
+  { id: 'page4',  file: 'page4/landing4.html',   title: 'Página 4',                    desc: 'Composición visual y tipografía' },
+  { id: 'page6',  file: 'page6/landing6.html',   title: 'eWatch — Microchip Tech',      desc: 'Reloj inteligente con tecnología microchip' },
+  { id: 'page10', file: 'page10/landing10.html', title: 'Design. Create. Inspire.',     desc: 'Landing orientada a creatividad y diseño' },
+  { id: 'page11', file: 'page11/landing11.html', title: 'New Designs',                  desc: 'Nuevos diseños y nuevas inspiraciones' },
+  { id: 'page12', file: 'page12/landing12.html', title: 'Discover. Explore. Inspire.',  desc: 'Explora el universo del diseño' },
+  { id: 'page14', file: 'page14/landing14.html', title: 'Listen to Yourself',           desc: 'Sigue tu corazón y encuentra tu camino' },
+  { id: 'page15', file: 'page15/landing15.html', title: 'Página 15',                   desc: 'Landing en desarrollo' },
+  { id: 'page22', file: 'page22/landing22.html', title: 'Power of Design',              desc: 'Descubre el poder del diseño' },
+  { id: 'page33', file: 'page33/landing33.html', title: 'Página 33',                   desc: 'Composición tipográfica avanzada' },
+  { id: 'page38', file: 'page38/landing38.html', title: 'Bring Green To Your Life',     desc: 'Plantas y decoración natural' },
+  { id: 'page40', file: 'page40/landing40.html', title: 'Love Your Plants',             desc: 'Tienda de plantas y jardín' },
+  { id: 'page41', file: 'page41/landing41.html', title: 'Dream House',                  desc: 'Construimos la casa de tus sueños' },
+  { id: 'page45', file: 'page45/landing45.html', title: 'Design Landing',               desc: 'Landing de diseño creativo' },
+  { id: 'page50', file: 'page50/landing50.html', title: 'Beautiful Designs',            desc: 'Diseños hermosos y confiables a tu medida' },
+];
+
+const COLORS = [
+  ['#7c6af7','#a78bfa'],['#f7a26a','#fbbf24'],['#6af7c8','#34d399'],
+  ['#f76af7','#f472b6'],['#6ab8f7','#60a5fa'],['#f76a7c','#fb7185'],
+  ['#aaf76a','#86efac'],['#f76aaa','#c084fc'],['#6af7f7','#67e8f9'],
+  ['#f7e06a','#fde68a'],['#7c6af7','#818cf8'],['#f7a26a','#fb923c'],
+  ['#6af7c8','#4ade80'],['#f76aaa','#e879f9'],['#6ab8f7','#38bdf8'],
+];
+
+let currentIdx = 0;
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = pages.map((p, i) => {
+    const [c1, c2] = COLORS[i];
+    return `
+    <div class="card" data-idx="${i}" data-title="${p.title.toLowerCase()} ${p.desc.toLowerCase()}">
+      <div class="preview">
+        <iframe src="${p.file}" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        <div class="preview-overlay"></div>
       </div>
-
-      <div class="col col-right">
-        <div class="right-top">
-          <div class="pill pill-sm">
-            <img src="Frame_14221.png" alt="Planta seca" />
-          </div>
-          <div class="pill pill-sm">
-            <img src="Frame_14217.png" alt="Suculentas" />
-          </div>
-        </div>
-        <img src="Star_4.png" alt="" class="star star-right" aria-hidden="true" />
-        <p class="body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus in libero risus semper habitant arcu eget. Et integer facilisi</p>
-        <div class="headline-right">
-          <h2>Trave<br>Explore<br>Discover</h2>
-        </div>
+      <div class="card-strip" style="--c1:${c1};--c2:${c2}"></div>
+      <div class="card-body">
+        <span class="card-number">Landing ${String(i+1).padStart(2,'0')} · ${p.id}</span>
+        <div class="card-title">${p.title}</div>
+        <p class="card-desc">${p.desc}</p>
       </div>
+      <div class="card-footer">
+        <button class="btn btn-primary" onclick="openModal(${i})">👁 Previsualizar</button>
+        <a class="btn btn-secondary" href="${p.file}" target="_blank">↗ Abrir</a>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-    </section>
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.card').forEach(c => {
+    const match = c.dataset.title.includes(q);
+    c.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+  document.getElementById('visible-count').textContent = visible;
+}
 
-  </main>
+function openModal(idx) {
+  currentIdx = idx;
+  const p = pages[idx];
+  const [c1, c2] = COLORS[idx];
+  document.getElementById('modal-title').textContent = `${p.title} — ${p.id}`;
+  document.getElementById('modal-strip').style.background = `linear-gradient(180deg,${c1},${c2})`;
+  document.getElementById('modal-iframe').src = p.file;
+  document.getElementById('modal-open-link').href = p.file;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modal-iframe').src = '';
+  document.body.style.overflow = '';
+}
+
+function closeModalOnBackdrop(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+function navModal(dir) {
+  currentIdx = (currentIdx + dir + pages.length) % pages.length;
+  openModal(currentIdx);
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modal').classList.contains('open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft') navModal(-1);
+  if (e.key === 'ArrowRight') navModal(1);
+});
+
+renderCards();
+</script>
 </body>
 </html>
